@@ -1,8 +1,8 @@
 import "./globals.css";
 
 export const metadata = {
-  title: "Opipolix AutoTopUp",
-  description: "Automated balance top-up with ERC-7715 Advanced Permissions",
+  title: "OpiPoliX AutoTopUp - Automated Balance Management",
+  description: "Automated balance top-up for Polymarket, Kalshi, Opinion using ERC-7715 Advanced Permissions",
 };
 
 export default function RootLayout({ children }) {
