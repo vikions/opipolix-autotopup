@@ -8,11 +8,7 @@ if (!pimlicoKey) {
   throw new Error("Pimlico API key is not set");
 }
 
-/**
- * A configured bundler client for ERC-7710 account abstraction operations.
- * Uses Pimlico's bundler service on the specified chain.
- * Extends the base bundler client with ERC-7710 specific actions.
- */
+
 export const bundlerClientFactory = (chainId) => createBundlerClient({
   transport: http(
     `https://api.pimlico.io/v2/${chainId}/rpc?apikey=${pimlicoKey}`

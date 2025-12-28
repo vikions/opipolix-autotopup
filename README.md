@@ -1,36 +1,218 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# OpiPoliX AutoTopUp 🚀
 
-## Getting Started
+**Automated balance management for Polymarket, Kalshi, Opinion, and Telegram bots using ERC-7715 Advanced Permissions**
 
-First, run the development server:
+[![Built with Next.js](https://img.shields.io/badge/Next.js-15-black)](https://nextjs.org/)
+[![MetaMask](https://img.shields.io/badge/MetaMask-Flask-orange)](https://metamask.io/flask/)
+[![ERC-7715](https://img.shields.io/badge/ERC--7715-Advanced%20Permissions-blue)](https://eips.ethereum.org/EIPS/eip-7715)
+[![Pimlico](https://img.shields.io/badge/Pimlico-Paymaster-green)](https://pimlico.io/)
+
+---
+
+## 📋 **Overview**
+
+OpiPoliX AutoTopUp is an automated balance management system that monitors your prediction market bots and wallets, automatically topping them up when balances run low. Built on ERC-7715 Advanced Permissions, it enables gasless, autonomous top-ups with a single permission grant.
+
+### **Key Features**
+
+- ⚡ **Smart Monitoring**: Automatically monitors bot balances every 3 seconds
+- 🔐 **One Permission**: Grant once, automate forever (30-day permissions)
+- 💰 **Zero Gas Fees**: All top-ups are gasless via Pimlico Paymaster
+- 🤖 **Multi-Platform**: Supports Polymarket, Kalshi, Opinion, and Telegram bots
+- 🔄 **USDC-Only**: Focused on USDC transfers (ETH support available)
+- ⚙️ **Configurable**: Set custom thresholds and top-up amounts
+
+---
+
+## 🛠️ **Tech Stack**
+
+- **Frontend**: Next.js 15, React, Tailwind CSS
+- **Blockchain**: Ethereum Sepolia (testnet)
+- **Smart Accounts**: MetaMask Smart Accounts Kit (Hybrid Implementation)
+- **Permissions**: ERC-7715 Advanced Permissions
+- **Wallet**: wagmi, viem
+- **Gasless Transactions**: Pimlico Paymaster & Bundler
+- **Account Abstraction**: ERC-4337 UserOperations
+
+---
+
+## 🚀 **Quick Start**
+
+### **Prerequisites**
+
+- **MetaMask Flask** (required for ERC-7715 support)
+  - Download: [metamask.io/flask](https://metamask.io/flask/)
+- **Node.js 18+** and **npm**
+
+### **Installation**
 
 ```bash
+# Clone repository
+git clone https://github.com/yourusername/opipolix-autotopup.git
+cd opipolix-autotopup
+
+# Install dependencies
+npm install
+
+# Set up environment variables
+cp .env.example .env.local
+
+# Add your Pimlico API key to .env.local
+NEXT_PUBLIC_PIMLICO_API_KEY=your_key_here
+
+# Run development server
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 📖 **How It Works**
 
-## Learn More
+### **1. Session Account Creation**
 
-To learn more about Next.js, take a look at the following resources:
+When you connect, OpiPoliX creates a **session account** (Hybrid Smart Account). This session account will execute top-ups on your behalf.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### **2. Grant Permissions**
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+You grant the session account two permissions using ERC-7715:
 
-## Deploy on Vercel
+- **ETH Permission**: 0.1 ETH per day
+- **USDC Permission**: 100 USDC per day
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+These permissions allow the session account to transfer tokens **without requiring approval for each transaction**.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### **3. Monitoring**
+
+The dashboard monitors your bot's balance every 3 seconds. When the balance drops below your configured threshold, it automatically triggers a top-up.
+
+### **4. Gasless Top-Ups**
+
+Top-ups are executed as **UserOperations** with delegation:
+- The session account sends the operation
+- Pimlico Paymaster sponsors the gas
+- Your bot receives USDC instantly
+
+---
+
+## 🔧 **Configuration**
+
+### **Environment Variables**
+
+```env
+# Pimlico API Key (required)
+NEXT_PUBLIC_PIMLICO_API_KEY=pim_xxxxx
+
+# RPC URLs (optional, has defaults)
+NEXT_PUBLIC_SEPOLIA_RPC_URL=https://ethereum-sepolia-rpc.publicnode.com
+```
+
+### **Dashboard Settings**
+
+- **USDC Threshold**: Minimum balance before top-up triggers (default: 1 USDC)
+- **USDC Top-Up Amount**: Amount to send per top-up (default: 1 USDC)
+- **Cooldown**: 30 seconds between top-ups (prevents spam)
+
+---
+
+## 📂 **Project Structure**
+
+```
+opipolix-autotopup/
+├── app/
+│   └── page.jsx                 # Landing page + config modal
+├── src/
+│   ├── components/
+│   │   └── Dashboard.jsx        # Monitoring dashboard
+│   ├── lib/
+│   │   ├── smartAccount.js      # Session accounts & permissions
+│   │   └── networks.js          # Network configurations
+│   ├── services/
+│   │   ├── bundlerClient.js     # Pimlico bundler
+│   │   └── pimlicoClient.js     # Pimlico paymaster
+│   └── providers/
+│       └── AppProvider.jsx      # wagmi configuration
+├── .env.local                   # Environment variables
+└── package.json
+```
+
+---
+
+
+### **Best Practices**
+
+✅ Only grant permissions on Sepolia testnet for testing  
+✅ Use small amounts for production testing  
+✅ Monitor the Activity Log for all operations  
+✅ Revoke permissions when not in use  
+
+---
+
+## 🧪 **Testing**
+
+### **Test Flow**
+
+1. **Connect MetaMask Flask** to Sepolia
+2. **Configure bot address** (use a test wallet)
+3. **Grant permissions** (approve in MetaMask Flask)
+4. **Fund your main wallet** with Sepolia USDC
+5. **Set threshold** to trigger top-up
+6. **Start monitoring** and watch Activity Log
+
+### **Test USDC Address (Sepolia)**
+
+```
+0x1c7D4B196Cb0C7B01d743Fbc6116a902379C7238
+```
+
+Get test USDC from [Sepolia faucets](https://faucets.chain.link/)
+
+---
+
+
+## 🚧 **Roadmap**
+
+- [ ] **Polygon Mainnet**: Production deployment with real USDC
+- [ ] **Multi-Token Support**: Add support for other ERC-20 tokens
+- [ ] **Email/Telegram Alerts**: Notifications for top-ups and low balance
+- [ ] **Historical Analytics**: Charts and stats for top-up history
+- [ ] **Mobile App**: React Native version
+
+---
+
+## 🤝 **Contributing**
+
+Contributions welcome! Please:
+
+1. Fork the repo
+2. Create a feature branch (`git checkout -b feature/amazing`)
+3. Commit changes (`git commit -m 'Add amazing feature'`)
+4. Push to branch (`git push origin feature/amazing`)
+5. Open a Pull Request
+
+---
+
+## 📄 **License**
+
+MIT License - see [LICENSE](LICENSE) file
+
+---
+
+## 🙏 **Acknowledgments**
+
+- **MetaMask** for ERC-7715 Advanced Permissions support
+- **Pimlico** for gasless transaction infrastructure
+- **viem** and **wagmi** for excellent developer tools
+
+---
+
+## 📞 **Contact**
+
+- **Project**: [github.com/yourusername/opipolix-autotopup](https://github.com/vikions/opipolix-autotopup)
+- **Demo**: [opipolix-autotopup.vercel.app](https://opipolix-autotopup.vercel.app)
+- **Twitter**: [@OpiPoliX](https://twitter.com/OpiPoliX)
+
+---
+
+**Built with ❤️ using ERC-7715 Advanced Permissions**

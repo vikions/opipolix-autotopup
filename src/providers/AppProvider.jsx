@@ -21,7 +21,7 @@ export const wagmiConfig = createConfig({
   },
 });
 
-// Network Context
+
 const NetworkContext = createContext({
   network: DEFAULT_NETWORK,
   setNetwork: () => {},
