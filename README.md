@@ -9,6 +9,10 @@
 
 ---
 
+## Advanced Permissions Usage: src/lib/smartAccount.js (Lines 48-117) src/lib/smartAccount.js (Lines 127-193) app/page.jsx (Lines 108-128)
+Social Media: https://x.com/opipolixbot
+---
+
 ## 📋 **Overview**
 
 OpiPoliX AutoTopUp is an automated balance management system that monitors your prediction market bots and wallets, automatically topping them up when balances run low. Built on ERC-7715 Advanced Permissions, it enables gasless, autonomous top-ups with a single permission grant.
@@ -211,8 +215,8 @@ MIT License - see [LICENSE](LICENSE) file
 
 - **Project**: [github.com/yourusername/opipolix-autotopup](https://github.com/vikions/opipolix-autotopup)
 - **Demo**: [opipolix-autotopup.vercel.app](https://opipolix-autotopup.vercel.app)
-- **Twitter**: [@OpiPoliX](https://twitter.com/OpiPoliX)
+- **Twitter**: [@OpiPoliX](https://x.com/opipolixbot)
 
----
 
-**Built with ❤️ using ERC-7715 Advanced Permissions**
+
+
