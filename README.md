@@ -10,7 +10,7 @@
 ---
 
 ## Advanced Permissions Usage: src/lib/smartAccount.js (Lines 48-117) src/lib/smartAccount.js (Lines 127-193) app/page.jsx (Lines 108-128)
-Social Media: https://x.com/opipolixbot
+Social Media: https://x.com/opipolixbot/status/2005055793163554845?s=20
 ---
 
 ## 📋 **Overview**
